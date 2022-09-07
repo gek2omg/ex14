@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+</head>
+<body>
+<form id="frmMember" class="frmMember" name="frmMember" method="POST" action="/api/member">
+    <div><input type="text" name="name"></div>
+    <div><input type="text" name="jumin"></div>
+    <div><input type="text" name="address"></div>
+    <div><button type="submit" id="" name="">등록하기</button></div>
+    <div id="htmlOut"></div>
+</form>
+<script>
+    document.querySelector("#frmMember").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        let HTML = "";
+
+        let formData = new FormData(document.querySelector("#frmMember"));
+        $.ajax({
+            url: "/api/member",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                HTML = data.content;
+                if(data.message == "SUCCESS") {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+                document.getElementById("htmlOut").innerHTML = HTML;
+            }, error: function(request, status, error) {
+                console.log("code:" + request.status +"\n" + "message:" + request.responseText +"\n"+"error:"+error);
+            }
+        });
+    });
+</script>
+</body>
+</html>
